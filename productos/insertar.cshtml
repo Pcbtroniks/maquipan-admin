@@ -1,0 +1,38 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+
+    try
+    {
+        string nombre = Request.Form["nombre"];
+        string cate = Request.Form["cate"];
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("INSERT INTO catart (nombre, cate, urlf) VALUES (@varNombre, @varCate, @varUrlf); SELECT LAST_INSERT_ID();", CONN))
+            {
+                // Asignar valores a los par�metros
+                CMD.Parameters.AddWithValue("@varNombre", nombre);
+                CMD.Parameters.AddWithValue("@varCate", cate);
+                CMD.Parameters.AddWithValue("@varUrlf", seguridad.urlf(nombre));
+
+                // Obtener el �ltimo ID insertado
+                int ultimoID = Convert.ToInt32(CMD.ExecuteScalar());
+
+                // Construir la URL con el �ltimo ID
+                string urlf = "~/productos/ver/" + ultimoID.ToString();
+
+                // Redireccionar a la nueva URL
+                Response.Redirect(urlf);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}
+

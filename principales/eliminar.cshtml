@@ -1,0 +1,36 @@
+
+
+@{             
+
+
+    string imagen = UrlData[0];
+
+    seguridad.RegistrarAccion(Session["nombre"].ToString(), "principales", "elimino imagen: " + imagen + mProductos.getInfoCatart(Request.Form["id"].ToString(), "nombre"));
+
+
+    switch (imagen)
+    {
+        case "1":
+            System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\principales\1.jpg");
+            break;
+        case "2":
+            System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\ttpdocs\img\principales\2.jpg");
+            break;
+        case "3":
+            System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\principales\3.jpg");
+            break;
+        case "4":
+            System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\principales\4.jpg");
+            break;
+        case "5":
+            System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\principales\5.jpg");
+            break;
+    }
+
+
+
+
+
+    Response.Redirect("~/principales");
+
+}

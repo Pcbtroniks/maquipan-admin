@@ -1,0 +1,72 @@
+@using System
+@using System.Web
+@using System.Configuration
+@using MySqlConnector
+
+@{
+
+    try
+    {
+        string cate = Request.Form["cate"].ToString();
+        string sSQL = "";
+
+        if (cate == "*")
+        {
+            sSQL = "SELECT * FROM catart WHERE cate = '' ORDER BY id ASC";
+        }
+        else
+        {
+            sSQL = "SELECT * FROM catart WHERE cate = '" + cate + "' ORDER BY id ASC";
+        }
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand(sSQL, CONN))
+            {
+                MySqlDataReader DATOS = CMD.ExecuteReader();
+
+                // Lista para almacenar las respuestas
+                List<Respuesta> respuestas = new List<Respuesta>();
+
+                while (DATOS.Read())
+                {
+                    Respuesta respuesta = new Respuesta();
+                    respuesta.id = DATOS["id"].ToString();
+                    respuesta.codigo = DATOS["codigo"].ToString();
+                    respuesta.nombre = DATOS["nombre"].ToString();
+                    respuesta.activo = DATOS["activo"].ToString();
+
+                    if (DATOS["ficha"].ToString() != "")
+                    {
+                        respuesta.ficha = "true";
+                    }
+
+
+                    // Agregar la respuesta a la lista
+                    respuestas.Add(respuesta);
+                }
+
+                // Convertir la lista de respuestas a formato JSON y escribirlo
+                string jsonRespuestas = Json.Encode(respuestas);
+                Response.ContentType = "application/json";
+                Response.Write(jsonRespuestas);
+            }
+        }
+    }
+    catch (MySqlException ex)
+    {
+        // Manejar excepciones
+    }
+}
+
+@functions{
+    public class Respuesta
+    {
+        public string id { get; set; }
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+        public string activo { get; set; }
+        public string ficha { get; set; }
+    }
+}

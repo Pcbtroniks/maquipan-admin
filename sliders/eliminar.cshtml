@@ -1,0 +1,33 @@
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+
+@{
+
+    string imagen = UrlData[0];
+
+
+    switch (imagen)
+    {
+        case "slider1":
+			System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\sliders\slider1.jpg");
+            //System.IO.File.Delete(@"C:\Inetpub\vhosts\maquipan.com.mx\httpdocs\img\sliders\slider1.jpg");
+            break;
+        case "slider2":
+			System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\sliders\slider2.jpg");
+            //System.IO.File.Delete(@"C:\Inetpub\vhosts\maquipan.com.mx\httpdocs\img\sliders\slider2.jpg");
+            break;
+        case "slider3":
+			System.IO.File.Delete(@"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\sliders\slider3.jpg");
+            //System.IO.File.Delete(@"C:\Inetpub\vhosts\maquipan.com.mx\httpdocs\img\sliders\slider3.jpg");
+            break;
+    }
+
+
+
+
+
+    Response.Redirect("~/sliders");
+
+}

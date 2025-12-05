@@ -1,0 +1,210 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@helper MenuSideBar()
+{
+    <div class="main-sidebar" id="sidebar-scroll">
+
+        <!-- Start::nav -->
+        <nav class="main-menu-container nav nav-pills flex-column sub-open">
+            <div class="slide-left" id="slide-left">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path> </svg>
+            </div>
+            <ul class="main-menu">
+                <!-- Start::slide__category -->
+                <li class="slide__category"><span class="category-name">Principal</span></li>
+                <!-- End::slide__category -->
+                <!-- Start::slide -->
+                <li class="slide">
+                    <a href="~/dashboard" class="side-menu__item">
+                        <span class=" side-menu__icon">
+                            <i class='bx bx-desktop'></i>
+                        </span>
+                        <span class="side-menu__label">Dashboards</span>
+                    </a>
+                </li>
+
+                <!-- End::slide -->
+                <!-- Start::slide__category -->
+                <li class="slide__category"><span class="category-name">General</span></li>
+                <!-- End::slide__category -->
+                <!-- Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item active">
+                        <span class=" side-menu__icon">
+                            <i class="bx bx-cube"></i>
+                        </span>
+                        <span class="side-menu__label">Productos</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin: 0px; box-sizing: border-box; transform: translate(120px, 234px); display: none;" data-popper-placement="bottom">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Productos</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/productos/agregar" class="side-menu__item">Agregar</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/productos/" class="side-menu__item" onclick="verProductos();">Ver</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End::slide -->
+                <!-- Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item active">
+                        <span class=" side-menu__icon">
+                            <i class="bx bx-shield"></i>
+                        </span>
+                        <span class="side-menu__label">Seguridad</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin: 0px; box-sizing: border-box; transform: translate(120px, 234px); display: none;" data-popper-placement="bottom">
+                        <li class="slide">
+                            <a href="~/usuarios" class="side-menu__item">Usuarios</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End::slide -->
+                <!-- Start::slide -->
+                <li class="slide has-sub">
+                    <a href="javascript:void(0);" class="side-menu__item active">
+                        <span class=" side-menu__icon">
+                            <i class="bx bx-cog"></i>
+                        </span>
+                        <span class="side-menu__label">Configuraciones</span>
+                        <i class="fe fe-chevron-right side-menu__angle"></i>
+                    </a>
+                    <ul class="slide-menu child1 active" style="position: relative; left: 0px; top: 0px; margin: 0px; box-sizing: border-box; transform: translate(120px, 234px); display: none;" data-popper-placement="bottom">
+                        <li class="slide side-menu__label1">
+                            <a href="javascript:void(0)">Configuraciones</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/sliders" class="side-menu__item">Sliders</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/principales/" class="side-menu__item">Principales</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/categorias" class="side-menu__item">Categorias</a>
+                        </li>
+                        <li class="slide">
+                            <a href="~/marcas" class="side-menu__item">Marcas</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End::slide -->
+
+
+            </ul>
+            <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path> </svg></div>
+        </nav>
+        <!-- End::nav -->
+
+    </div>
+}
+
+@helper MenuHeader()
+{
+
+    <header class="app-header">
+
+        <!-- Start::main-header-container -->
+        <div class="main-header-container container-fluid">
+
+            <!-- Start::header-content-left -->
+            <div class="header-content-left">
+
+                <!-- Start::header-element -->
+                <div class="header-element">
+                    <div class="horizontal-logo">
+                        <a href="~/dashboard" class="header-logo">
+                            <img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+                            <img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+                            <img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+                            <img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+                        </a>
+                    </div>
+                </div>
+                <!-- End::header-element -->
+                <!-- Start::header-element -->
+                <div class="header-element">
+                    <!-- Start::header-link -->
+                    <a aria-label="anchor" href="javascript:void(0);" class="sidemenu-toggle header-link" data-bs-toggle="sidebar">
+                        <span class="open-toggle me-2">
+                            <i class="bx bx-menu header-link-icon"></i>
+                        </span>
+                    </a>
+                    <div class="main-header-center  d-none d-lg-block  header-link">
+
+                    </div>
+
+                    <!-- End::header-link -->
+                </div>
+                <!-- End::header-element -->
+                <!-- Start::header-element -->
+                <div class="header-element header-search d-lg-none d-block ">
+                    <!-- Start::header-link -->
+                    <a aria-label="anchor" href="javascript:void(0);" class="header-link" data-bs-toggle="modal" data-bs-target="#searchModal">
+                        <i class="bx bx-search-alt-2 header-link-icon"></i>
+                    </a>
+                    <!-- End::header-link -->
+                </div>
+                <!-- End::header-element -->
+
+            </div>
+            <!-- End::header-content-left -->
+            <!-- Start::header-content-right -->
+            <div class="header-content-right">
+
+                <!-- Start::header-element -->
+                <div class="header-element mainuserProfile">
+                    <!-- Start::header-link|dropdown-toggle -->
+                    <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <div class="d-sm-flex wd-100p">
+                                <div class="ms-2 my-auto d-none d-xl-flex">
+                                    <h6 class=" font-weight-semibold mb-0 fs-13 user-name d-sm-block d-none">@Session["nombre"]</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- End::header-link|dropdown-toggle -->
+                    <ul class="dropdown-menu  border-0 main-header-dropdown  overflow-hidden header-profile-dropdown" aria-labelledby="mainHeaderProfile">
+                        <li><a class="dropdown-item" href="~/usuarios/perfil"><i class="fs-13 me-2 bx bx-user"></i>Perfil</a></li>
+                        <li><a class="dropdown-item" href="~/mcore/seguridad/cerrarsession"><i class="fs-13 me-2 bx bx-arrow-to-right"></i>Salir</a></li>
+                    </ul>
+                </div>
+                <!-- End::header-element -->
+                <!-- Start::header-element -->
+            </div>
+            <!-- End::header-content-right -->
+        </div>
+        <!-- End::main-header-container -->
+    </header>
+}
+
+@helper Footer()
+{
+    seguridad.VerificarOCrearArchivo();
+    <footer class="footer mt-auto py-3 bg-white text-center">
+        <div class="container">
+            <div>Registro log de visita por: <strong>@Session["nombre"]</strong> | <strong>@Session["correo"] | IP del equipo: @seguridad.ObtenerIpVisitante()</strong> </div>
+            <span class="text-muted">
+                <a href="javascript:void(0);" class="text-dark fw-semibold">MAQUIPAN</a> Todos los derechos reservados |
+                Desarrollado por
+                <a href="javascript:void(0);">
+                    <span class="fw-semibold text-primary text-decoration-underline">DARDOS DIGITAL y SMARTTARGET</span>
+                </a>
+            </span>
+        </div>
+    </footer>
+}
+
+
+@functions{
+
+    public static string nombreHeader = "MAQUIPAN ADMIN";
+
+}

@@ -1,0 +1,88 @@
+@using System
+@using System.Web
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+@{
+
+    seguridad.RegistrarAccion(Session["nombre"].ToString(), "productos", "Ver articulo " + mProductos.getInfoCatart(Request.Form["id"].ToString(), "nombre"));
+
+    string subcate = "";
+    string subcate2 = "";
+    string subcate3 = "";
+    string subcate4 = "";
+    string subcate5 = "";
+
+    subcate = Request.Form["subcate"] != null ? Request.Form["subcate"].ToString() : "";
+    subcate2 = Request.Form["subcate2"] != null ? Request.Form["subcate2"].ToString() : "";
+    subcate3 = Request.Form["subcate3"] != null ? Request.Form["subcate3"].ToString() : "";
+    subcate4 = Request.Form["subcate4"] != null ? Request.Form["subcate4"].ToString() : "";
+    subcate5 = Request.Form["subcate5"] != null ? Request.Form["subcate5"].ToString() : "";
+
+    string mYoutube = Request.Unvalidated["youtube"].ToString();
+
+    mYoutube = mYoutube.Replace("script", "");
+    mYoutube = mYoutube.Replace("insert", "");
+    mYoutube = mYoutube.Replace("delete", "");
+    mYoutube = mYoutube.Replace("truncate", "");
+
+
+    try
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand(@"UPDATE catart SET activo = @varActivo , nombre = @varNombre , urlf = @varUrlf , descripcion = @varDescripcion , beneficios = @varBeneficios , precio = @varPrecio, hot = @varHot, pre_promo = @varDescuento, cate = @varCate, cate2 = @varCate2, cate3 = @varCate3, cate4 = @varCate4, cate5 = @varCate5, voltaje = @varVoltaje, codigo = @varCodigo, marca = @varMarca, ventaonline = @varVentaonline, subcate = @varSubCate, subcate2 = @varSubCate2, subcate3 = @varSubCate3, subcate4 = @varSubCate4, subcate5 = @varSubCate5, tag1 = @varTag1, tag2 = @varTag2, tag3 = @varTag3, tag4 = @varTag4, tag5 = @varTag5, tag6 = @varTag6, youtube = @varYoutube  WHERE id = @varId ", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varId", Request.Form["id"].ToString());
+                CMD.Parameters.AddWithValue("@varActivo", Request.Form["activo"].ToString());
+                CMD.Parameters.AddWithValue("@varVentaonline", Request.Form["ventaonline"].ToString());
+                CMD.Parameters.AddWithValue("@varNombre", Request.Form["nombre"].ToString());
+                CMD.Parameters.AddWithValue("@varCodigo", Request.Form["codigo"].ToString());
+                CMD.Parameters.AddWithValue("@varUrlf", seguridad.urlf(Request.Form["nombre"].ToString()));
+                CMD.Parameters.AddWithValue("@varDescripcion", Request.Form["descripcion"].ToString());
+                CMD.Parameters.AddWithValue("@varBeneficios", Request.Form["beneficios"].ToString());
+                CMD.Parameters.AddWithValue("@varPrecio", Request.Form["precio"].ToString());
+                CMD.Parameters.AddWithValue("@varHot", Request.Form["hot"].ToString());
+                CMD.Parameters.AddWithValue("@varDescuento", Request.Form["descuento"].ToString());
+                CMD.Parameters.AddWithValue("@varVoltaje", Request.Form["voltaje"].ToString());
+                CMD.Parameters.AddWithValue("@varMarca", Request.Form["marca"].ToString());
+                CMD.Parameters.AddWithValue("@varCate", Request.Form["cate"].ToString());
+                CMD.Parameters.AddWithValue("@varCate2", Request.Form["cate2"].ToString());
+                CMD.Parameters.AddWithValue("@varCate3", Request.Form["cate3"].ToString());
+                CMD.Parameters.AddWithValue("@varCate4", Request.Form["cate4"].ToString());
+                CMD.Parameters.AddWithValue("@varCate5", Request.Form["cate5"].ToString());
+
+                CMD.Parameters.AddWithValue("@varSubCate", subcate);
+                CMD.Parameters.AddWithValue("@varSubCate2", subcate2);
+                CMD.Parameters.AddWithValue("@varSubCate3", subcate3);
+                CMD.Parameters.AddWithValue("@varSubCate4", subcate4);
+                CMD.Parameters.AddWithValue("@varSubCate5", subcate5);
+
+                CMD.Parameters.AddWithValue("@varTag1", Request.Form["tag1"].ToString());
+                CMD.Parameters.AddWithValue("@varTag2", Request.Form["tag2"].ToString());
+                CMD.Parameters.AddWithValue("@varTag3", Request.Form["tag3"].ToString());
+                CMD.Parameters.AddWithValue("@varTag4", Request.Form["tag4"].ToString());
+                CMD.Parameters.AddWithValue("@varTag5", Request.Form["tag5"].ToString());
+                CMD.Parameters.AddWithValue("@varTag6", Request.Form["tag6"].ToString());
+
+                CMD.Parameters.AddWithValue("@varYoutube", mYoutube);
+
+                CMD.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (MySqlException ex)
+    {
+        Response.Write(ex.Message);
+
+    }
+    string urlf = "~/productos/ver/" + Request.Form["id"].ToString();
+    Response.Redirect(urlf, true);
+
+
+}

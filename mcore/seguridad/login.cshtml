@@ -1,0 +1,59 @@
+﻿@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{ 
+
+    string correo = Request.Form["correo"];
+    string contra = Request.Form["contra"];
+
+    try
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM usuarios WHERE correo = @varCorreo LIMIT 1", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varCorreo", correo);
+                using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                {
+                    while (DATOS.Read())
+                    {
+                        if (contra == DATOS["contra"].ToString())
+                        {
+                            Session["nombre"] = DATOS["nombre"].ToString();
+                            Session["correo"] = DATOS["correo"].ToString();
+                            Session["movil"] = DATOS["movil"].ToString();
+                            Session["tipo"] = DATOS["tipo"].ToString();
+                            Session["loginMensaje"] = "";
+
+                            seguridad.RegistrarAccion(DATOS["nombre"].ToString(), "login", "Inicio session");
+
+                            Response.Redirect("~/dashboard");
+                            Context.ApplicationInstance.CompleteRequest();
+                        }
+                        else
+                        {
+                            Session["nombre"] = "";
+                            Session["correo"] = "";
+                            Session["movil"] = "";
+                            Session["tipo"] = "";
+                            Session["loginMensaje"] = "El correo o contraseña es incorrecto.";
+
+                            Response.Redirect("~/");
+                            Context.ApplicationInstance.CompleteRequest();
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+    catch (MySqlException ex)
+    {
+        Response.Write("E: " + ex.Message);
+    }
+
+
+}

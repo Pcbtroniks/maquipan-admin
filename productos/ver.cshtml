@@ -1,0 +1,719 @@
+﻿@using System
+@using System.Web
+@using System.IO
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+
+@{
+
+    // En el controlador o la lógica que maneja la solicitud de la imagen
+    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    Response.Cache.SetNoStore();
+    Response.Cache.SetExpires(DateTime.Now);
+    Response.AppendHeader("Pragma", "no-cache");
+
+    string activo = "", ventaonline = "", aplicarDescuento = "";
+    string categoria = "", categoria2 = "", categoria3 = "", categoria4 = "", categoria5 = "";
+    string subcategoria = "", subcategoria2 = "", subcategoria3 = "", subcategoria4 = "", subcategoria5 = "";
+
+    string voltaje = "";
+    string marca = "";
+    //--------------------------------------------- VERIFICAMOS SI EL DIRECTORIO DEL PRODCUTO EXISTE SI NO LO CREAMOS
+    try
+    {
+        string pathDirectorio = Path.Combine(globales.pathGlobalImagenes, UrlData[0].ToString());
+        if (!Directory.Exists(pathDirectorio))
+        { Directory.CreateDirectory(pathDirectorio); }
+    }
+    catch (Exception ex)
+    { }
+
+
+    //--------------------------------------------- VERIFICAMOS LOS ARCHIVOS PARA LAS IMAGENES
+    string nameImage = UrlData[0] + @"\\1.jpg";
+    string pathFileImage = Path.Combine(globales.pathGlobalImagenes, nameImage);
+
+    string nameImage2 = UrlData[0] + @"\\2.jpg";
+    string pathFileImage2 = Path.Combine(globales.pathGlobalImagenes, nameImage2);
+
+    string nameImage3 = UrlData[0] + @"\\3.jpg";
+    string pathFileImage3 = Path.Combine(globales.pathGlobalImagenes, nameImage3);
+
+    string nameImage4 = UrlData[0] + @"\\4.jpg";
+    string pathFileImage4 = Path.Combine(globales.pathGlobalImagenes, nameImage4);
+
+    string nameImage5 = UrlData[0] + @"\\5.jpg";
+    string pathFileImage5 = Path.Combine(globales.pathGlobalImagenes, nameImage5);
+
+}
+
+<!DOCTYPE html>
+<html lang="es-mx" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="gradient" data-menu-styles="dark">
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@globales.nombreEmpresa | Admin</title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="simple admin panel template html css,admin panel html,bootstrap 5 admin template,admin,bootstrap dashboard,bootstrap 5 admin panel template,html and css,admin panel,admin panel html template,simple html template,bootstrap admin template,admin dashboard,admin dashboard template,admin panel template,template dashboard">
+
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/libs/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/assets/libs/simonwep/pickr/themes/nano.min.css">
+    <link rel="stylesheet" href="~/assets/libs/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="~/assets/css/preloader.css">
+
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="~/assets/images/media/loader.svg" alt="">
+    </div>
+    <!-- Loader -->
+
+    <div class="page">
+        <!-- app-header -->
+        @navegacionWeb.MenuHeader()
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+        <aside class="app-sidebar" id="sidebar">
+
+            <!-- Start::main-sidebar-header -->
+            <div class="main-sidebar-header">
+                <a href="~/dashboard" class="header-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+                    <img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+                </a>
+            </div>
+            <!-- End::main-sidebar-header -->
+            <!-- Start::main-sidebar -->
+            @navegacionWeb.MenuSideBar()
+            <!-- End::main-sidebar -->
+
+        </aside>
+        <!-- End::app-sidebar -->
+        <!-- Page Header -->
+        <div class="d-sm-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+            <h4 class="fw-medium mb-0">Producto Editar</h4>
+            <div class="ms-sm-1 ms-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Preguntas</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Header Close -->
+        <!-- Start::app-content -->
+        <div id="mBody" class="main-content app-content">
+            <div class="container-fluid">
+                <form id="fDetalleProducto" name="fDetalleProducto" method="post" enctype="multipart/form-data" action="~/productos/actualizar"></form>
+                @{
+                    using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                    {
+                        CONN.Open();
+                        using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM catart WHERE id = @id", CONN))
+                        {
+                            CMD.Parameters.AddWithValue("@id", UrlData[0]);
+
+                            MySqlDataReader DATOS = CMD.ExecuteReader();
+                            while (DATOS.Read())
+                            {
+
+                                seguridad.RegistrarAccion(Session["nombre"].ToString(), "prodcutos", "Ver articulo " + DATOS["nombre"]);
+
+
+                                activo = DATOS["activo"].ToString();
+                                ventaonline = DATOS["ventaonline"].ToString();
+                                categoria = DATOS["cate"].ToString();
+                                categoria2 = DATOS["cate2"].ToString();
+                                categoria3 = DATOS["cate3"].ToString();
+                                categoria4 = DATOS["cate4"].ToString();
+                                categoria5 = DATOS["cate5"].ToString();
+
+                                subcategoria = DATOS["subcate"].ToString();
+                                subcategoria2 = DATOS["subcate2"].ToString();
+                                subcategoria3 = DATOS["subcate3"].ToString();
+                                subcategoria4 = DATOS["subcate4"].ToString();
+                                subcategoria5 = DATOS["subcate5"].ToString();
+
+                                voltaje = DATOS["voltaje"].ToString();
+                                marca = DATOS["marca"].ToString();
+                                aplicarDescuento = DATOS["hot"].ToString();
+                                <input name="id" type="hidden" form="fDetalleProducto" value="@UrlData[0]" />
+                                <div class="row" style="margin-bottom: 50px;">
+                                    <div class="col-md-8">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Detalles de Producto
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label>Nombre:</label>
+                                                    <input name="nombre" type="text" class="form-control" form="fDetalleProducto" value="@DATOS["nombre"]" required />
+                                                </div>
+
+                                                <div class="form-group col-md-4" style="margin-top: 20px;">
+                                                    <label>Codigo:</label>
+                                                    <input name="codigo" type="text" class="form-control" form="fDetalleProducto" value="@DATOS["codigo"]" required />
+                                                </div>
+
+                                                <div class="form-group" style="margin-top: 20px;">
+                                                    <label>Características:</label>
+                                                    <textarea name="descripcion" class="form-control" rows="5" form="fDetalleProducto" required>@DATOS["descripcion"]</textarea>
+                                                </div>
+                                                <div class="form-group" style="margin-top: 20px;">
+                                                    <label>Beneficios:</label>
+                                                    <textarea name="beneficios" class="form-control" rows="3" form="fDetalleProducto" required>@DATOS["beneficios"]</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header"><img src="~/productos/img/youtube.png" alt="Youtube" width="38" /> URL Youtube</div>
+                                            <div class="card-body">
+                                                <input class="form-control" type="text" form="fDetalleProducto" name="youtube" value="@DATOS["youtube"]" />
+                                            </div>
+                                            <div class="card-footer">
+                                                * Agregar el codigo EMBED  de youtube no la URL de navegador.
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label>Activo:</label>
+                                                    <select id="activo" name="activo" class="form-control" form="fDetalleProducto" required>
+                                                        <option value="1">Activo</option>
+                                                        <option value="0">No activo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label>Venta Online:</label>
+                                                    <select id="ventaonline" name="ventaonline" class="form-control" form="fDetalleProducto" required>
+                                                        <option value="1">Si</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+
+                                                <label for="precio" id="labelPrecio">Precio publico (monto en el que la pasarela hace el cobro):</label>
+                                                <input name="precio" class="form-control text-end" form="fDetalleProducto" id="inputPrecio" value="@DATOS["precio"]" required />
+
+                                                <label class="pt-3" for="aplicarDescuento">Producuto HOT:</label>
+                                                <select id="aplicarDescuento" name="hot" form="fDetalleProducto" class="form-control" required>
+                                                    <option value="0">No</option>
+                                                    <option value="1">Sí</option>
+                                                </select>
+
+                                                <div class="pt-3" id="descuentoSection" style="display: none;">
+                                                    <label for="precioDescuento">Precio tachado:</label>
+                                                    <input name="descuento" class="form-control text-end" form="fDetalleProducto" id="precioDescuento" value="@DATOS["pre_promo"]" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label>Marca:</label>
+                                                    <select id="marca" name="marca" class="form-control" form="fDetalleProducto" required>
+                                                        @{
+                                                            using (MySqlConnection CONNm = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                            {
+                                                                CONNm.Open();
+                                                                using (MySqlCommand CMDm = new MySqlCommand("SELECT * FROM marcas ORDER BY nombre ASC", CONNm))
+                                                                {
+                                                                    using (MySqlDataReader DATOSm = CMDm.ExecuteReader())
+                                                                    {
+                                                                        while (DATOSm.Read())
+                                                                        {
+                                                                            <option value="@DATOSm["nombre"]">@DATOSm["nombre"]</option>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label>Voltaje:</label>
+                                                    <select id="voltaje" name="voltaje" class="form-control" form="fDetalleProducto" required>
+                                                        <option value="110v">110v</option>
+                                                        <option value="127v">127v</option>
+                                                        <option value="220v Bifasica">220v Bifasica</option>
+                                                        <option value="220v Trifasica">220v Trifasica</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header">Ficha técnica</div>
+                                            <div class="card-body">
+                                                @{
+                                                    string fnameImage = DATOS["id"].ToString() + @"\\" + DATOS["ficha"].ToString();
+                                                    string fpathFileImage = Path.Combine(globales.pathGlobalImagenes, fnameImage);
+
+                                                    if (File.Exists(fpathFileImage))
+                                                    {
+                                                        <img src="~/img/icon_pdf.jpg" width="32" /> @Html.Raw(DATOS["ficha"].ToString())
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="card-footer">
+                                                @{
+
+                                                    if (File.Exists(fpathFileImage))
+                                                    {
+                                                        <a class="btn btn-danger" href="~/productos/fichas_eliminar/@DATOS["id"]" style="width: 100%;">eliminar pdf</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="btn btn-success" href="~/productos/fichas/@DATOS["id"]" style="width: 100%;">agregar pdf</a>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <hr />
+                                                    <h3 class="text-center"> TAGS DE BUSQUEDA EN LA WEB</h3>
+                                                    <h6 class="text-center text-muted">Agregar una sola palabra por espacio relacionada al producto.</h6>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag1" value="@DATOS["tag1"]" form="fDetalleProducto" />
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag2" value="@DATOS["tag2"]" form="fDetalleProducto" />
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag3" value="@DATOS["tag3"]" form="fDetalleProducto" />
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag4" value="@DATOS["tag4"]" form="fDetalleProducto" />
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag5" value="@DATOS["tag5"]" form="fDetalleProducto" />
+                                                    </div>
+                                                    <div class="col-md-12 mb-3">
+                                                        <input class="form-control" type="text" name="tag6" value="@DATOS["tag6"]" form="fDetalleProducto" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <hr />
+                                        <h3 class="text-center"> CATEGORIAS Y SUB CATEGORIAS</h3>
+
+                                        <div id="mCateSubcate" class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Primera</label>
+                                                            <select id="cate" name="cate" class="form-control" form="fDetalleProducto" required onchange="cambiarSub('1')">
+                                                                @mProductos.getCategorias()
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group pt-3">
+                                                            <label>Sub Categoria</label>
+                                                            <select id="subcate" name="subcate" class="form-control" form="fDetalleProducto">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label>Segunda</label>
+                                                        <select id="cate2" name="cate2" class="form-control" form="fDetalleProducto" onchange="cambiarSub('2')">
+                                                            <option value=""></option>
+                                                            @mProductos.getCategorias()
+                                                        </select>
+                                                        <div class="form-group pt-3">
+                                                            <label>Sub Categoria</label>
+                                                            <select id="subcate2" name="subcate2" class="form-control" form="fDetalleProducto">
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label>Tercera</label>
+                                                        <select id="cate3" name="cate3" class="form-control" form="fDetalleProducto" onchange="cambiarSub('3')">
+                                                            <option value=""></option>
+                                                            @mProductos.getCategorias()
+                                                        </select>
+                                                        <div class="form-group pt-3">
+                                                            <label>Sub Categoria</label>
+                                                            <select id="subcate3" name="subcate3" class="form-control" form="fDetalleProducto">
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label>Cuarta</label>
+                                                        <select id="cate4" name="cate4" class="form-control" form="fDetalleProducto" onchange="cambiarSub('4')">
+                                                            <option value=""></option>
+                                                            @mProductos.getCategorias()
+                                                        </select>
+                                                        <div class="form-group pt-3">
+                                                            <label>Sub Categoria</label>
+                                                            <select id="subcate4" name="subcate4" class="form-control" form="fDetalleProducto">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col">
+                                                        <label>Quinta</label>
+                                                        <select id="cate5" name="cate5" class="form-control" form="fDetalleProducto" onchange="cambiarSub('5')">
+                                                            <option value=""></option>
+                                                            @mProductos.getCategorias()
+                                                        </select>
+                                                        <div class="form-group pt-3">
+                                                            <label>Sub Categoria</label>
+                                                            <select id="subcate5" name="subcate5" class="form-control" form="fDetalleProducto">
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 pb-3">
+                                        <hr />
+                                        <h3 class="text-center"> IMAGENES</h3>
+                                        <h5 class="text-center text-danger">
+                                            IMPORTANTE: Antes de subir o eliminar una fotografía, guarda los datos previamente cambiados.
+                                        </h5>
+                                        <div style="width: 20%; float: left;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @{
+                                                        if (File.Exists(pathFileImage))
+                                                        {
+                                                            <img src="https://@globales.vpsDominio/img/productos/@DATOS["id"]/1.jpg?t=@DateTime.Today.Ticks" class="img-fluid" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/img/noimagen.png" class="img-fluid" />
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="card-footer">
+                                                    @{
+
+                                                        if (File.Exists(pathFileImage))
+                                                        {
+                                                            <a class="btn btn-danger" style="width: 100%;" onclick="FEliminarFoto('1');" >eliminar imagen</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-success" style="width: 100%;" href="~/productos/imagenes/@UrlData[0]/1">subir imagen</a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 20%; float: left;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @{
+                                                        if (File.Exists(pathFileImage2))
+                                                        {
+                                                            <img src="https://@globales.vpsDominio/img/productos/@DATOS["id"]/2.jpg?t=@DateTime.Today.Ticks" class="img-fluid" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/img/noimagen.png" class="img-fluid" />
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="card-footer">
+                                                    @{
+
+                                                        if (File.Exists(pathFileImage2))
+                                                        {
+                                                            <a class="btn btn-danger" style="width: 100%;" onclick="FEliminarFoto('2');">eliminar imagen</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-success" style="width: 100%;" href="~/productos/imagenes/@UrlData[0]/2">subir imagen</a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 20%; float: left;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @{
+                                                        if (File.Exists(pathFileImage3))
+                                                        {
+                                                            <img src="https://@globales.vpsDominio/img/productos/@DATOS["id"]/3.jpg?t=@DateTime.Today.Ticks" class="img-fluid" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/img/noimagen.png" class="img-fluid" />
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="card-footer">
+                                                    @{
+
+                                                        if (File.Exists(pathFileImage3))
+                                                        {
+                                                            <a class="btn btn-danger" style="width: 100%;" onclick="FEliminarFoto('3');">eliminar imagen</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-success" style="width: 100%;" href="~/productos/imagenes/@UrlData[0]/3">subir imagen</a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 20%; float: left;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @{
+                                                        if (File.Exists(pathFileImage4))
+                                                        {
+                                                            <img src="https://@globales.vpsDominio/img/productos/@DATOS["id"]/4.jpg?t=@DateTime.Today.Ticks" class="img-fluid" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/img/noimagen.png" class="img-fluid" />
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="card-footer">
+                                                    @{
+
+                                                        if (File.Exists(pathFileImage4))
+                                                        {
+                                                            <a class="btn btn-danger" style="width: 100%;" onclick="FEliminarFoto('4');">eliminar imagen</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-success" style="width: 100%;" href="~/productos/imagenes/@UrlData[0]/4">subir imagen</a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 20%; float: left;">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    @{
+                                                        if (File.Exists(pathFileImage5))
+                                                        {
+                                                            <img src="https://@globales.vpsDominio/img/productos/@DATOS["id"]/5.jpg?t=@DateTime.Today.Ticks" class="img-fluid" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <img src="~/img/noimagen.png" class="img-fluid" />
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="card-footer">
+                                                    @{
+                                                        if (File.Exists(pathFileImage5))
+                                                        {
+                                                            <a class="btn btn-danger" style="width: 100%;" onclick="FEliminarFoto('5');">eliminar imagen</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-success" style="width: 100%;" href="~/productos/imagenes/@UrlData[0]/5">subir imagen</a>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 pt-5 pb-5">
+                                        <button type="submit" class="btn btn-success" style="width: 100%" form="fDetalleProducto">actualizar</button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+        <!-- End::app-content -->
+        <!-- Footer Start -->
+        @navegacionWeb.Footer()
+        <!-- Footer End -->
+
+
+        <div class="modal fade" id="mModalEliminar" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationModalLabel">Confirmación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div> <div class="modal-body"> ¿De verdad deseas eliminar la fotografía? </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <a href="" class="btn btn-danger" id="confirmDeleteBtn">Sí, eliminar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date & Time Picker JS -->
+        <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="~/assets/js/date&time_pickers.js"></script>
+    </div>
+
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-circle-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <!-- Popper JS -->
+    <script src="~/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="~/assets/libs/popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/defaultmenu.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/sticky.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/simplebar.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="~/productos/js/categorias.js?t=@DateTime.Now.Ticks"></script>
+    <script src="~/assets/js/jquery.preloader.min.js"></script>
+
+    <style>
+        .respuestaCorrecta:checked {
+            background-color: green;
+        }
+    </style>
+
+    <script>
+        // Obtener referencia al select y al div de descuento
+        var aplicarDescuentoSelect = document.getElementById('aplicarDescuento');
+        var descuentoSection = document.getElementById('descuentoSection');
+
+        // Agregar un event listener para el cambio en el select
+        aplicarDescuentoSelect.addEventListener('change', function () {
+            // Mostrar u ocultar el div de descuento según la selección del select
+            descuentoSection.style.display = (aplicarDescuentoSelect.value === '1') ? 'block' : 'none';
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#mBody').preloader();
+
+
+			$('#activo').val('@Html.Raw(activo)');
+            $('#ventaonline').val('@Html.Raw(ventaonline)');
+			$('#voltaje').val('@Html.Raw(voltaje)');
+			$('#marca').val('@Html.Raw(marca)');
+
+			$('#cate').val('@Html.Raw(categoria)');
+			$('#cate2').val('@Html.Raw(categoria2)');
+			$('#cate3').val('@Html.Raw(categoria3)');
+			$('#cate4').val('@Html.Raw(categoria4)');
+			$('#cate5').val('@Html.Raw(categoria5)');
+
+			$('#aplicarDescuento').val('@Html.Raw(aplicarDescuento)');
+			if ("@Html.Raw(aplicarDescuento)" === "1") {
+                $('#descuentoSection').show();
+			}
+
+			//--------------------------------- VERIFICAMOS LAS CATEGORIAS Y SUS CATEGORIAS INICIALES
+            cambiarSub('1', '@Html.Raw(subcategoria)');
+            cambiarSub('2', '@Html.Raw(subcategoria2)');
+            cambiarSub('3', '@Html.Raw(subcategoria3)');
+            cambiarSub('4', '@Html.Raw(subcategoria4)');
+            cambiarSub('5', '@Html.Raw(subcategoria5)');
+		});
+
+        function cambiarSub(idcate, nombresubcate) {
+
+            switch (idcate) {
+				case "1":
+                    mCategoria1('subcate', $('#cate').val(), nombresubcate);
+					break;
+				case "2":
+                    mCategoria1('subcate2', $('#cate2').val(), nombresubcate);
+					break;
+				case "3":
+                    mCategoria1('subcate3', $('#cate3').val(), nombresubcate);
+					break;
+				case "4":
+                    mCategoria1('subcate4', $('#cate4').val(), nombresubcate);
+					break;
+				case "5":
+                    mCategoria1('subcate5', $('#cate5').val(), nombresubcate);
+					break;
+            }
+        }
+
+        function FEliminarFoto(noImagen) {
+            $('#confirmDeleteBtn').attr('href', '/productos/imagenes_eliminar/@UrlData[0]/' + noImagen);
+            $('#mModalEliminar').modal('show');
+        }
+    </script>
+</body>
+
+</html>

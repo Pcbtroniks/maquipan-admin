@@ -1,0 +1,32 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    try
+    {
+        string marca = Request.Form["marca"];
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("INSERT INTO marcas (nombre) VALUES (@varNombre);", CONN))
+            {
+                // Asignar valores a los parametros
+                CMD.Parameters.AddWithValue("@varNombre", marca);
+                CMD.ExecuteNonQuery();
+
+                // Construir la URL con el �ltimo ID
+                string urlf = "~/marcas/";
+
+                // Redireccionar a la nueva URL
+                Response.Redirect(urlf);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}
+

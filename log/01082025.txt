@@ -1,0 +1,13 @@
+12:37 Ana login Inicio session ip: 189.178.51.63
+12:44 Ana login Inicio session ip: 189.178.51.63
+12:56 Ana login Inicio session ip: 189.178.51.63
+13:09 Ana login Inicio session ip: 189.178.51.63
+13:09 Ana prodcutos Ver articulo AE05G2 G.PANIZ AMASADORA ESPIRAL 5KG 3 VELOCIDADES 127V BIFASICA ip: 189.178.51.63
+13:10 Ana perfil Ingreso su perfil ip: 189.178.51.63
+16:26 Ana login Inicio session ip: 189.178.51.63
+17:44 Ana login Inicio session ip: 189.178.51.63
+17:44 ventaenlinea@maquipan.com.mx marcas Ver articulo ip: 189.178.51.63
+17:44 ventaenlinea@maquipan.com.mx marcas Ver articulo ip: 189.178.51.63
+17:47 Ana prodcutos Ver articulo CLI390 G.PANIZ CILINDRO LAMINADOR 39CM 4KG 127V ip: 189.178.51.63
+17:47 Ana productos Ver articulo CLI390 G.PANIZ CILINDRO LAMINADOR 39CM 4KG 127V ip: 189.178.51.63
+17:47 Ana prodcutos Ver articulo CLI390 G.PANIZ CILINDRO LAMINADOR 39CM 4KG 127V ip: 189.178.51.63

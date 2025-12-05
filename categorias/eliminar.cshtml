@@ -1,0 +1,50 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+
+    EliminarSubCate(Request.QueryString["cate"]);
+    EliminarCate(Request.QueryString["cate"]);
+
+    // Construir la URL con el �ltimo ID
+    string urlf = "~/categorias";
+
+    // Redireccionar a la nueva URL
+    Response.Redirect(urlf);
+
+}
+
+
+@functions{
+
+    private void EliminarSubCate(string cate)
+        {
+            string subcate = Request.QueryString["subcate"];
+
+            using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+            {
+                CONN.Open();
+                using (MySqlCommand CMD = new MySqlCommand("DELETE FROM subcategorias WHERE categoria = @varSubCategoria;", CONN))
+                {
+                    // Asignar valores a los par�metros
+                    CMD.Parameters.AddWithValue("@varSubCategoria", subcate);
+                    CMD.ExecuteNonQuery();
+                }
+            }
+        }
+
+    private void EliminarCate(string cate)
+        {
+            using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+            {
+                CONN.Open();
+                using (MySqlCommand CMD = new MySqlCommand("DELETE FROM categorias WHERE nombre = @varCategoria;", CONN))
+                {
+                    // Asignar valores a los par�metros
+                    CMD.Parameters.AddWithValue("@varCategoria", cate);
+                    CMD.ExecuteNonQuery();
+                }
+            }
+        }
+}

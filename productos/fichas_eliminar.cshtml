@@ -1,0 +1,61 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    // CAPTAMOS EL ARTICULO POR SU NUMERO DE ID EN LA BASE DE DATOS
+    string id = UrlData[0].ToString();
+
+    string fnameImage = "";
+    string fpathFileImage = "";
+
+    try
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM catart WHERE id = @varId LIMIT 1", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varId", id);
+                using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                {
+                    while (DATOS.Read())
+                    {
+                        fnameImage = DATOS["id"].ToString() + @"\\" + DATOS["ficha"].ToString();
+                        fpathFileImage = Path.Combine(globales.pathGlobalImagenes, fnameImage);
+                    }
+                }
+            }
+        }
+
+        System.IO.File.Delete(fpathFileImage);
+        actualziarPDF(id, "");
+    }
+    catch (Exception)
+    {
+
+    }
+
+
+
+    string url = ("~/productos/ver/" + id);
+    Response.Redirect(url);
+}
+
+@functions{
+
+    private void actualziarPDF(string id, string filename)
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("UPDATE catart SET ficha = @varFicha WHERE id = @varId LIMIT 1 ", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varId", id);
+                CMD.Parameters.AddWithValue("@varFicha", "");
+                CMD.ExecuteReader();
+            }
+        }
+    }
+
+}

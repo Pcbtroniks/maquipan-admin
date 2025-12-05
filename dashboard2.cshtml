@@ -1,0 +1,314 @@
+@using System;
+@using System.Web;
+@using System.IO;
+@using System.Configuration;
+@using MySqlConnector;
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+<!DOCTYPE html>
+<html lang="es-mx" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="gradient" data-menu-styles="dark">
+
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@navegacionWeb.nombreHeader</title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="simple admin panel template html css,admin panel html,bootstrap 5 admin template,admin,bootstrap dashboard,bootstrap 5 admin panel template,html and css,admin panel,admin panel html template,simple html template,bootstrap admin template,admin dashboard,admin dashboard template,admin panel template,template dashboard">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/libs/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/assets/libs/simonwep/pickr/themes/nano.min.css">
+    <link rel="stylesheet" href="~/assets/libs/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="~/assets/libs/jsvectormap/css/jsvectormap.min.css">
+    <link rel="stylesheet" href="~/assets/libs/swiper/swiper-bundle.min.css">
+
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="~/assets/images/media/loader.svg" alt="">
+    </div>
+    <!-- Loader -->
+
+    <div class="page">
+        <!-- app-header -->
+        @navegacionWeb.MenuHeader()
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+        <aside class="app-sidebar" id="sidebar">
+
+            <!-- Start::main-sidebar-header -->
+            <div class="main-sidebar-header">
+                <a href="~/dashboard" class="header-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+                    <img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+                    <img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+                </a>
+            </div>
+            <!-- End::main-sidebar-header -->
+            <!-- Start::main-sidebar -->
+            @navegacionWeb.MenuSideBar()
+            <!-- End::main-sidebar -->
+
+        </aside>
+        <!-- End::app-sidebar -->
+        <!-- Page Header -->
+        <div class="page-header-breadcrumb d-md-flex d-block align-items-center justify-content-between ">
+            <h4 class="fw-medium mb-0">Dashboard</h4>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="javascript:void(0);" class="text-white-50">Dashboards</a>
+                </li>
+            </ol>
+        </div>
+        <!-- Page Header Close -->
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+                <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="row row-cols-xxl-5 row-cols-xl-3 row-cols-md-2">
+                            <div class="col card-background">
+                                <div class="card custom-card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div>
+                                                <p class="fw-medium mb-1 text-muted">Clientes</p>
+                                                <h3 class="mb-0">@mEstadisticas.GetTotalClientes()</h3>
+                                            </div>
+                                            <div class="avatar avatar-md br-4 bg-primary-transparent ms-auto">
+                                                <i class="bi bi-people-fill fs-20"></i>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-2">
+                                            @*<span class="badge bg-primary-transparent rounded-pill">+24% <i class="fe fe-arrow-down"></i></span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End::row-1 -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div> <h5 class="card-title mb-0">Ordenes pendientes</h5> </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table text-nowrap table-hover border table-bordered">
+                                        <thead class="border-top">
+                                            <tr>
+                                                <th scope="row" class="border-bottom-0 text-center">No.</th>
+                                                <th scope="row" class="border-bottom-0"></th>
+                                                <th scope="row" class="border-bottom-0">Fecha</th>
+                                                <th scope="row" class="border-bottom-0" width="25"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                using (MySqlConnection CONN2 = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                {
+                                                    CONN2.Open();
+                                                    using (MySqlCommand CMD2 = new MySqlCommand("SELECT * FROM ordenes WHERE estatus = 'PEN'", CONN2))
+                                                    {
+                                                        using (MySqlDataReader DATOS2 = CMD2.ExecuteReader())
+                                                        {
+                                                            while (DATOS2.Read())
+                                                            {
+                                                                if (@mClientes.getInfoCustomer(DATOS2["id_cliente"].ToString(), "nombre") == "") { }
+                                                                else
+                                                                {
+                                                                    <tr class="border-bottom">
+                                                                        <td class="text-center">@DATOS2["id"]</td>
+                                                                        <td>
+                                                                            <div class="d-flex align-items-center">
+                                                                                <div class="lh-1">
+                                                                                    @mClientes.getInfoCustomer(DATOS2["id_cliente"].ToString(), "nombre") @mClientes.getInfoCustomer(DATOS2["id_cliente"].ToString(), "paterno")
+                                                                                    <p class="text-muted fs-11 mb-0 mt-1">@mClientes.getInfoCustomer(DATOS2["id_cliente"].ToString(), "correo")</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>@Convert.ToDateTime(DATOS2["fecha"].ToString()).ToString("dd MMM yy")</td>
+                                                                        <td>
+                                                                            <div class="g-2">
+                                                                                <a href="~/ordenes/ver/@DATOS2["id"]" aria-label="anchor" class="btn  btn-primary-light btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                                                                                    <span class="ri-pencil-line fs-14"></span>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div> <h5 class="card-title mb-0">Ordenes positivas</h5> </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table text-nowrap table-hover border table-bordered">
+                                        <thead class="border-top">
+                                            <tr>
+                                                <th scope="row" class="border-bottom-0 text-center">No.</th>
+                                                <th scope="row" class="border-bottom-0"></th>
+                                                <th scope="row" class="border-bottom-0">Fecha</th>
+                                                <th scope="row" class="border-bottom-0" width="25"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                {
+                                                    CONN.Open();
+                                                    using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM ordenes WHERE estatus = 'POS'", CONN))
+                                                    {
+                                                        using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                                                        {
+                                                            while (DATOS.Read())
+                                                            {
+                                                                <tr class="border-bottom">
+                                                                    <td class="text-center">@DATOS["id"]</td>
+                                                                    <td>
+                                                                        <div class="d-flex align-items-center">
+                                                                            <div class="lh-1">
+                                                                                @mClientes.getInfoCustomer(DATOS["id_cliente"].ToString(), "nombre") @mClientes.getInfoCustomer(DATOS["id_cliente"].ToString(), "paterno")
+                                                                                <p class="text-muted fs-11 mb-0 mt-1">@mClientes.getInfoCustomer(DATOS["id_cliente"].ToString(), "correo")</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>@Convert.ToDateTime(DATOS["fecha"].ToString()).ToString("dd MMM yy")</td>
+                                                                    <td>
+                                                                        <div class="g-2">
+                                                                            <a href="~/ordenes/ver/@DATOS["id"]" aria-label="anchor" class="btn  btn-primary-light btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                                                                                <span class="ri-pencil-line fs-14"></span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        CONN.Close();
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        aqui:
+                        @{
+
+                            string directorio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log");
+                            string nombreArchivo = DateTime.Now.ToString("ddMMyyyy") + ".txt";
+                            string rutaArchivo = Path.Combine(directorio, nombreArchivo);
+
+                            Html.Raw(directorio);
+                            Html.Raw(nombreArchivo);
+                            Html.Raw(rutaArchivo);
+
+
+                            try
+                            {
+                                if (!Directory.Exists(directorio))
+                                {
+                                    Directory.CreateDirectory(directorio);
+                                }
+
+                                string linea = DateTime.Now.ToString("HH:mm") + " correo modulo mensaje ip: 127.0.0.1";
+
+                                using (StreamWriter writer = new StreamWriter(rutaArchivo, true))
+                                {
+                                    writer.WriteLine(linea);
+                                    writer.Close();
+                                    writer.Dispose();
+                                }
+                                Response.Write("registro accion");
+                            }
+                            catch (Exception ex)
+                            {
+                                Response.Write(ex.Message);
+                            }
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End::app-content -->
+        <!-- Footer Start -->
+        @navegacionWeb.Footer()
+        <!-- Footer End -->
+        <!-- Date & Time Picker JS -->
+        <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="~/assets/js/date&time_pickers.js"></script>
+
+    </div>
+
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-circle-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <!-- Popper JS -->
+    <script src="~/assets/libs/popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/defaultmenu.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/sticky.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/simplebar.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="~/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="~/assets/libs/jsvectormap/maps/world-merc.js"></script>
+    <script src="~/assets/libs/chart.js/chart.min.js"></script>
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/sales-dashboard.js"></script>
+
+
+    <!-- Custom-Switcher JS -->
+    <script src="~/assets/js/custom-switcher.min.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+</body>
+
+</html>

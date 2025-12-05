@@ -1,0 +1,32 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    try
+    {
+        string cate = Request.Form["cate"];
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("INSERT INTO categorias (nombre) VALUES (@varNombre);", CONN))
+            {
+                // Asignar valores a los par�metros
+                CMD.Parameters.AddWithValue("@varNombre", cate);
+                CMD.ExecuteNonQuery();
+
+                // Construir la URL con el �ltimo ID
+                string urlf = "~/categorias/";
+
+                // Redireccionar a la nueva URL
+                Response.Redirect(urlf);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}
+

@@ -1,0 +1,60 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+@{
+    try
+    {
+        string nombre = Request.Form["nombre"];
+        string apellidop = Request.Form["apellidop"];
+        string correo = Request.Form["correo"];
+        string contra = Request.Form["contra"];
+        string tipo = Request.Form["tipo"];
+
+        string connectionString = ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString;
+        MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            connection.Open();
+
+            string query = "INSERT INTO usuarios (nombre, apellidop, correo, contra, tipo) VALUES (@nombre, @apellidop, @correo, @contra, @tipo)";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                // Asignar valores a los parámetros
+                command.Parameters.AddWithValue("@nombre", nombre);
+                command.Parameters.AddWithValue("@apellidop", apellidop);
+                command.Parameters.AddWithValue("@correo", correo);
+                command.Parameters.AddWithValue("@contra", contra);
+                command.Parameters.AddWithValue("@tipo", tipo);
+
+                command.ExecuteNonQuery();
+            }
+
+            // Redireccionar a la nueva URL
+            Response.Redirect("~/usuarios");
+        }
+        catch (Exception ex)
+        {
+            // Manejar la excepción
+            Response.Write("Error al ejecutar la consulta: " + ex.Message);
+        }
+        finally
+        {
+            // Cerrar la conexión en caso de que esté abierta
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}

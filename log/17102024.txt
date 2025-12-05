@@ -1,0 +1,10 @@
+12:41 alma.palacios@maquipan.com.mx login Inicio sessionip: 187.228.115.33
+13:24 alma.palacios@maquipan.com.mx login Inicio session ip: 187.228.115.33
+
+15:41 Andres login Inicio session ip: 177.241.47.192
+15:56 Andres login Inicio session ip: 177.241.47.192
+16:12 Andres login Inicio session ip: 177.241.47.192
+18:00 Andres login Inicio session ip: 177.241.47.192
+18:53 Andres login Inicio session ip: 177.241.47.192
+18:56 Andres login Inicio session ip: 177.241.47.192
+19:13 Andres login Inicio session ip: 177.241.47.192

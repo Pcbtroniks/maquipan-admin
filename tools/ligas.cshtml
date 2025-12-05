@@ -1,0 +1,43 @@
+@using System
+@using System.Web
+@using System.Configuration
+@using MySqlConnector
+
+
+@{ 
+
+    using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+    {
+        CONN.Open();
+        using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM catart;", CONN))
+        {
+            using (MySqlDataReader DATOS = CMD.ExecuteReader())
+            {
+                while (DATOS.Read())
+                {
+                UpdateURLF(DATOS["id"].ToString(), seguridad.urlf(DATOS["nombre"].ToString()));
+                }
+            }
+        }
+    }
+}
+
+
+@functions{
+
+
+    private static void UpdateURLF(string id, string urlf)
+    {
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("UPDATE catart SET urlf = @varUrlf WHERE id = @varID", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varID", id);
+                CMD.Parameters.AddWithValue("@varUrlf", urlf);
+                CMD.ExecuteReader();
+            }
+        }
+    }
+}

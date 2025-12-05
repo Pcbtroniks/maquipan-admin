@@ -1,0 +1,21 @@
+@{
+
+
+
+    // CAPTAMOS EL ARTICULO POR SU NUMERO DE ID EN LA BASE DE DATOS
+    string id = UrlData[0].ToString();
+    string imagen = UrlData[1].ToString();
+
+
+    seguridad.RegistrarAccion(Session["nombre"].ToString(), "productos", "elimino foto no. " + imagen + " del prodcuto " + mProductos.getInfoCatart(id, "nombre"));
+
+
+    string nameImage = UrlData[0] + @"\\" + imagen + ".jpg";
+
+
+    string pathFileImage = Path.Combine(globales.pathGlobalImagenes, nameImage);
+    System.IO.File.Delete(pathFileImage);
+
+    string url = ("~/productos/ver/" + id);
+    Response.Redirect(url);
+}

@@ -1,0 +1,53 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    seguridad.RegistrarAccion(Session["nombre"].ToString(), "principales", "actualizar principales" + mProductos.getInfoCatart(Request.Form["id"].ToString(), "nombre"));
+
+    // Inicialización de las variables de los URLs
+    string primaria1_url = Request.Form["primaria1_url"];
+    string primaria2_url = Request.Form["primaria2_url"];
+    string primaria3_url = Request.Form["primaria3_url"];
+    string primaria4_url = Request.Form["primaria4_url"];
+    string primaria5_url = Request.Form["primaria5_url"];
+
+    try
+    {
+        // Crear la conexión a la base de datos
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            // Abrir la conexión
+            CONN.Open();
+
+            // Crear el comando SQL
+            using (MySqlCommand CMD = new MySqlCommand(@"UPDATE marketing SET primaria1_url = @primaria1_url, primaria2_url = @primaria2_url, primaria3_url = @primaria3_url, primaria4_url = @primaria4_url, primaria5_url = @primaria5_url WHERE nombre = 'config';", CONN))
+            {
+                // Agregar los parámetros al comando SQL
+                CMD.Parameters.AddWithValue("@primaria1_url", primaria1_url);
+                CMD.Parameters.AddWithValue("@primaria2_url", primaria2_url);
+                CMD.Parameters.AddWithValue("@primaria3_url", primaria3_url);
+                CMD.Parameters.AddWithValue("@primaria4_url", primaria4_url);
+                CMD.Parameters.AddWithValue("@primaria5_url", primaria5_url);
+
+                // Ejecutar la consulta SQL
+                CMD.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (MySqlException ex)
+    {
+        // Manejo de errores
+        Response.Write("Error al actualizar los datos: " + ex.Message);
+    }
+    catch (Exception ex)
+    {
+        // Manejo de cualquier otra excepción
+        Response.Write("Error inesperado: " + ex.Message);
+    }
+
+    // Redirigir a la página deseada
+    string urlf = "~/principales";
+    Response.Redirect(urlf, true);
+}
+

@@ -1,0 +1,92 @@
+﻿@{ 
+    Session["perfil_pass"] = "";
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-vertical-style="overlay" data-theme-mode="light" data-header-styles="light" data-menu-styles="light" data-toggled="close">
+
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@globales.nombreEmpresa</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+
+    <!-- Main Theme Js -->
+    <script src="~/assets/js/authentication-main.js"></script>
+
+    <!-- Bootstrap Css -->
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+
+    <!-- Style Css -->
+    <link href="~/assets/css/styles.min.css" rel="stylesheet" >
+
+    <!-- Icons Css -->
+    <link href="~/assets/css/icons.min.css" rel="stylesheet" >
+
+
+</head>
+
+<body>
+
+    <div class="page error-bg" id="particles-js">
+        <!-- Start::error-page -->
+        <div class="error-page  ">
+            <div class="container">
+                <div class="row justify-content-center align-items-center authentication authentication-basic h-100">
+                    <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-6 col-sm-8 col-12">
+                        <div class="my-5 d-flex justify-content-center">
+                            <a href="~/">
+                                <img src="~/img/logo.png" alt="logo" width="250" class="desktop-logo">
+                                <img src="~/img/logo.png" alt="logo" width="250" class="desktop-dark">
+                            </a>
+                        </div>
+                        <div class="card custom-card rectangle2">
+                            <div class="card-body p-5 rectangle3">
+                                <form action="~/mcore/seguridad/login" method="post">
+                                    <p class="h4 fw-semibold mb-2 text-center">MAQUIPAN ADMIN</p>
+                                    <p class="mb-4 text-muted op-7 fw-normal text-center">Siempre hay una oportunidad para marcar la diferencia</p>
+                                    <div class="row gy-3">
+                                        <div class="col-xl-12">
+                                            <label for="signin-username" class="form-label text-default">Correo</label>
+                                            <input name="correo" type="email" class="form-control form-control-lg" id="signin-username" placeholder="correo" required>
+                                        </div>
+                                        <div class="col-xl-12 mb-2">
+                                            <label for="signin-password" class="form-label text-default d-block">Contraseña</label>
+                                            <div class="input-group">
+                                                <input name="contra" type="password" class="form-control form-control-lg" id="signin-password" placeholder="contraseña" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <small style="color: darkred;">@Session["loginMensaje"]</small>
+                                        </div>
+                                        <div class="col-xl-12 d-grid mt-2">
+                                            <button type="submit"  class="btn btn-lg btn-primary">Ingresar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End::error-page -->
+    </div>
+
+    <!-- Custom-Switcher JS -->
+    <script src="~/assets/js/custom-switcher.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Show Password JS -->
+    <script src="~/assets/js/show-password.js"></script>
+
+</body>
+
+</html>

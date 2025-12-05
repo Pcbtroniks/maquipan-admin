@@ -1,0 +1,57 @@
+@using System;
+@using System.Configuration;
+@using MySqlConnector;
+
+@{ 
+
+    string contraactual = Request.Form["contraactual"].ToString();
+    string contranueva = Request.Form["contranueva"].ToString();
+
+    try
+    {
+        if (ActualizarContrasena(contraactual, contranueva, Session["correo"].ToString()))
+        {
+            seguridad.RegistrarAccion(Session["nombre"].ToString(), "perfil", "Actualizo sus accesos");
+            Session["perfil_pass"] = "";
+            Response.Redirect("~/mcore/seguridad/cerrarsession");
+        }
+        else
+        {
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+
+}
+
+@functions{
+
+	private static bool ActualizarContrasena(string contraactual, string contranueva, string correo)
+    {
+        bool resultado = false;
+        try
+        {
+            using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+            {
+                CONN.Open();
+                using (MySqlCommand CMD = new MySqlCommand("UPDATE usuarios SET contra = @contranueva WHERE contra = @contraactual AND correo = @varCorreo", CONN))
+                {
+                    CMD.Parameters.AddWithValue("@contranueva", contranueva);
+                    CMD.Parameters.AddWithValue("@contraactual", contraactual);
+                    CMD.Parameters.AddWithValue("@varCorreo", correo);
+                    CMD.ExecuteNonQuery();
+                    resultado = true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            resultado = false;
+        }
+        return resultado;
+    }
+
+}
+

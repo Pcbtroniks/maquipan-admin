@@ -1,0 +1,93 @@
+﻿@using System
+@using System.IO
+@using System.Web
+@using System.Drawing
+@using System.Drawing.Imaging
+
+@{
+    seguridad.VerificarSesionCorreo();
+}
+
+
+@{
+
+    // RECIBIMOS LAS VARIABLES DE LA IMAGEN Y SU POSICIÓN
+    string imagen = Request.Form["imagen"].ToString();
+    string base64String = Request.Form["image"].ToString();
+
+    base64String = base64String.Replace("data:image/png;base64,", "");
+
+    // VERIFICAMOS SI EL DIRECTORIO TEMP EXISTE SI NO ES CREADO
+    if (!Directory.Exists(globales.pathGlobalTemp))
+    {
+        Directory.CreateDirectory(globales.pathGlobalTemp);
+    }
+
+    byte[] imageBytes = Convert.FromBase64String(base64String);
+    MemoryStream ms = new MemoryStream(imageBytes);
+    ms.Write(imageBytes, 0, imageBytes.Length);
+    System.Drawing.Image image = System.Drawing.Image.FromStream(ms, true);
+
+    string pathFileTemp = Path.Combine(globales.pathGlobalTemp, "temp.jpg");
+    Base64ToImage(base64String).Save(pathFileTemp);
+
+    // CONVERTIMOS CUALQUIER IMAGEN A FORMATO JPG CON COMPRESION DEL 80
+    using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(pathFileTemp))
+    {
+
+        using (var g = Graphics.FromImage(bmp))
+        {
+            g.Clear(Color.White);
+            g.DrawImageUnscaled(image, 0, 0);
+        }
+
+        System.Drawing.Imaging.ImageCodecInfo jpgEncoder = GetEncoderInfo("image/jpeg");
+        System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+        System.Drawing.Imaging.EncoderParameters myEncoderParameters = new System.Drawing.Imaging.EncoderParameters(1);
+        System.Drawing.Imaging.EncoderParameter myEncoderParameter = new System.Drawing.Imaging.EncoderParameter(myEncoder, 90L);
+        myEncoderParameters.Param[0] = myEncoderParameter;
+
+		string nameImage = @"C:\Inetpub\vhosts\boring-williams.209-46-122-218.plesk.page\httpdocs\img\sliders\" + imagen + ".jpg";
+        //string nameImage = @"C:\Inetpub\vhosts\maquipan.com.mx\httpdocs\img\sliders\" + imagen + ".jpg";
+        string pathFileImage = Path.Combine(globales.pathGlobalImagenes, nameImage);
+        bmp.Save(pathFileImage, jpgEncoder, myEncoderParameters);
+        bmp.Dispose();
+    }
+
+    // ELIMINAMOS TODOS LOS ARCHIVOS DE TRABAJO EN TEMP
+    System.IO.DirectoryInfo di = new DirectoryInfo(globales.pathGlobalTemp);
+    foreach (FileInfo archivos in di.GetFiles())
+    {
+        archivos.Delete();
+    }
+
+    string url = ("~/sliders");
+    Response.Redirect(url);
+
+}
+
+@functions{
+
+    public System.Drawing.Image Base64ToImage(string base64String)
+    {
+        byte[] imageBytes = Convert.FromBase64String(base64String);
+        MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+        ms.Write(imageBytes, 0, imageBytes.Length);
+        System.Drawing.Image image = System.Drawing.Image.FromStream(ms, true);
+        return image;
+    }
+
+    public static System.Drawing.Imaging.ImageCodecInfo GetEncoderInfo(String mimeType)
+    {
+        int j;
+        System.Drawing.Imaging.ImageCodecInfo[] encoders;
+        encoders = System.Drawing.Imaging.ImageCodecInfo.GetImageEncoders();
+        for (j = 0; j < encoders.Length; ++j)
+        {
+            if (encoders[j].MimeType == mimeType)
+                return encoders[j];
+        }
+        return null;
+    }
+
+}

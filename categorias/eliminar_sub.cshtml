@@ -1,0 +1,33 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    try
+    {
+        string cate = Request.QueryString["cate"];
+        string subcate = Request.QueryString["subcate"];
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("DELETE FROM subcategorias WHERE subcategoria = @varSubCategoria;", CONN))
+            {
+                // Asignar valores a los par�metros
+                CMD.Parameters.AddWithValue("@varSubCategoria", subcate);
+                CMD.ExecuteNonQuery();
+
+                // Construir la URL con el �ltimo ID
+                string urlf = "~/categorias/ver/" + cate;
+
+                // Redireccionar a la nueva URL
+                Response.Redirect(urlf);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}
+

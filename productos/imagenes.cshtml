@@ -1,0 +1,200 @@
+﻿@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{ 
+    string pxDimencionW = "450";
+    string pxDimencionH = "450";
+}
+<!DOCTYPE html>
+<html lang="es-mx" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="gradient" data-menu-styles="dark">
+<head>
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Maquipan | Admin</title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="simple admin panel template html css,admin panel html,bootstrap 5 admin template,admin,bootstrap dashboard,bootstrap 5 admin panel template,html and css,admin panel,admin panel html template,simple html template,bootstrap admin template,admin dashboard,admin dashboard template,admin panel template,template dashboard">
+
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/libs/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/assets/libs/simonwep/pickr/themes/nano.min.css">
+    <link rel="stylesheet" href="~/assets/libs/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="~/productos/css/croppie.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="~/assets/images/media/loader.svg" alt="">
+    </div>
+    <!-- Loader -->
+
+    <div class="page">
+        <!-- app-header -->
+        @navegacionWeb.MenuHeader()
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+		<aside class="app-sidebar" id="sidebar">
+
+			<!-- Start::main-sidebar-header -->
+			<div class="main-sidebar-header">
+				<a href="~/dashboard" class="header-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+				</a>
+			</div>
+			<!-- End::main-sidebar-header -->
+			<!-- Start::main-sidebar -->
+			@navegacionWeb.MenuSideBar()
+			<!-- End::main-sidebar -->
+
+		</aside>
+        <!-- End::app-sidebar -->
+        <!-- Page Header -->
+        <div class="d-sm-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+            <h4 class="fw-medium mb-0">Imagenes</h4>
+            <div class="ms-sm-1 ms-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Productos</li>
+                        <li class="breadcrumb-item active" aria-current="page">Imagenes</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Header Close -->
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12 padding-10">
+                                        <div id="image_demo" style="width: 100%; max-height: 600px !important; border: solid #808080 1px; border-radius: 10px"></div> <!-- Tamano de todo el elemnto de cuadro, incluyendo el escalador; a que altura esta el cuadro de previa de el marco superior de la ventana -->
+                                        <!-- <div id="image_demo" style="width:350px; margin-top:50px"></div> -->
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form id="imgnoticias" method="POST" action="~/productos/imagenes_subir" enctype="multipart/form-data">
+                                            <!-- COMPONENT START -->
+                                            <div class="form-group">
+                                                <input type="file" name="upload_image" id="upload_image" value="" />
+                                            </div>
+                                            <input required type="hidden" name="id" value="@UrlData[0]">
+                                            <input required type="hidden" name="imagen" value="@UrlData[1]">
+                                            <input required type="hidden" id="image" name="image" value="" class="w-100" />
+                                            <hr />
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center" style="padding-top:30px;">
+                                        <button class="btn btn-success crop_image" style="width: 50%;">Subir foto</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--End::row-1 -->
+
+
+            </div>
+        </div>
+        <!-- End::app-content -->
+        <!-- Footer Start -->
+        @navegacionWeb.Footer()
+        <!-- Footer End -->
+        <!-- Date & Time Picker JS -->
+        <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="~/assets/js/date&time_pickers.js"></script>
+
+    </div>
+
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-circle-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <!-- Popper JS -->
+    <script src="~/assets/libs/popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/defaultmenu.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/sticky.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/simplebar.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="~/assets/js/custom-switcher.min.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="~/productos/js/preguntas.js"></script>
+    <script src="~/productos/js/croppie.js"></script>
+
+    <script>
+        //CODIGO JAVASCRIPT
+        $(document).ready(function () {
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                viewport: {
+                    width: @pxDimencionW, // 400, 300, 200 ancho de imagen previa
+                    height: @pxDimencionH, // 400, 300, 200 altura de imagen previa
+                    type: 'square' //circle; en ves de cuadrado usar circulo
+                },
+                boundary: {
+                    width: @pxDimencionW, //500, 400, 300 ancho de cuadro contenedor de muestra
+                    height: @pxDimencionH //500, 400, 300 alto de cuadro contenedor de muestra
+                }
+            });
+            $('#upload_image').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                        console.log('done');
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#uploadimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+
+                if ($('#upload_image').val() != '') {
+                    $image_crop.croppie('result', {
+                        type: 'canvas',
+                        size: 'viewport'
+                    }).then(function (response) {
+                        $('#image').val(response);
+                        $('#imgnoticias').submit();
+                    })
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

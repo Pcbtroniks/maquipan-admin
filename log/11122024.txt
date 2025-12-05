@@ -1,0 +1,63 @@
+17:36 Alma login Inicio session ip: 189.178.96.202
+17:37 Alma prodcutos Ver articulo AME05/15 G.PANIZ AMASADORA SEMI RAPIDA CON EXTRUSORA PARA PASTA 15KG/H 127V ip: 189.178.96.202
+17:49 Alma login Inicio session ip: 189.178.96.202
+17:50 Alma perfil Ingreso su perfil ip: 189.178.96.202
+17:54 Alma perfil Ingreso su perfil ip: 189.178.96.202
+17:54 alma.palacios@maquipan.com.mx marcas Ver articulo ip: 189.178.96.202
+17:55 correo modulo mensaje ip: 127.0.0.1
+18:14 Alma login Inicio session ip: 189.178.96.202
+18:15 alma.palacios@maquipan.com.mx marcas Ver articulo ip: 189.178.96.202
+18:28 Ana login Inicio session ip: 189.178.77.55
+18:41 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:42 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:44 Ana productos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:44 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:45 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:46 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:47 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:48 Ana productos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:48 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:48 Ana productos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:48 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+18:51 Andres login Inicio session ip: 189.178.96.202
+18:53 Alma login Inicio session ip: 189.178.96.202
+18:54 Alma perfil Ingreso su perfil ip: 189.178.96.202
+19:00 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+19:06 Ana login Inicio session ip: 189.178.77.55
+19:10 Alma login Inicio session ip: 187.224.60.182
+20:10 Ana login Inicio session ip: 189.178.77.55
+20:56 Ana login Inicio session ip: 189.178.77.55
+20:56 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+20:57 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+21:09 Alma login Inicio session ip: 189.178.96.202
+21:09 Alma prodcutos Ver articulo  ip: 189.178.96.202
+21:10 Alma prodcutos Ver articulo ARR-17 HC ASBER REFRIGERADOR 1 PUERTA SOLIDA  ip: 189.178.96.202
+21:19 Alma login Inicio session ip: 189.178.96.202
+21:23 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:28 Alma login Inicio session ip: 189.178.96.202
+21:29 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:30 Alma productos elimino foto no. 1 del prodcuto DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:30 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:30 Alma productos elimino foto no. 2 del prodcuto DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:30 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:30 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:31 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+21:31 Alma prodcutos Ver articulo DC04 G.PANIZ DESHEBRADORA DE CARNE 4KG 127V ip: 189.178.96.202
+22:06 Ana login Inicio session ip: 189.178.77.55
+22:06 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:06 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:06 Ana productos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:06 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:32 Ana login Inicio session ip: 189.178.77.55
+22:37 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:37 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:37 Ana productos elimino foto no. 2 del prodcuto CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:37 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:38 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:38 Ana productos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:38 Ana prodcutos Ver articulo CR2-36 MAQUIPAN CORTADORA DE MASA 36 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:39 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:39 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:39 Ana productos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:39 Ana prodcutos Ver articulo CR2-18 MAQUIPAN CORTADORA DE MASA 18 TANTOS TAZÓN DE 3 KG ip: 189.178.77.55
+22:46 Ana login Inicio session ip: 189.178.77.55

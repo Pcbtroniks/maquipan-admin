@@ -1,0 +1,6 @@
+08:54 Andres login Inicio session ip: 177.241.47.192
+11:12 Ana login Inicio session ip: 189.178.23.128
+11:44 Ana login Inicio session ip: 189.178.23.128
+11:53 Alma login Inicio session ip: 187.228.115.33
+11:54 alma.palacios@maquipan.com.mx marcas Ver articulo ip: 187.228.115.33
+13:15 Alma login Inicio session ip: 187.228.115.33

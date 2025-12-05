@@ -1,0 +1,22 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+
+    string id = Request.Form["id"].ToString();
+    string meses = Request.Form["meses"].ToString();
+
+    using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+    {
+        CONN.Open();
+        using (MySqlCommand CMD = new MySqlCommand("UPDATE marcas SET meses = @varMeses WHERE id = @varId ", CONN))
+        {
+            CMD.Parameters.AddWithValue("@varMeses", meses);
+            CMD.Parameters.AddWithValue("@varId", id);
+            CMD.ExecuteNonQuery();
+        }
+    }
+
+    Response.Redirect("~/marcas");
+}

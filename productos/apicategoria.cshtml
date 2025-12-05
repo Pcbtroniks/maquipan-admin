@@ -1,0 +1,55 @@
+@using System
+@using System.Web
+@using System.IO
+@using System.Configuration
+@using MySqlConnector
+
+@{
+
+    string cate = Request.Form["cate"].ToString();
+    //string cate = "Accesorios";
+
+    List<Respuesta> _respuesta = new List<Respuesta>();
+    Respuesta respuesta = new Respuesta();
+    try
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM subcategorias WHERE categoria = @varCategoria ORDER BY subcategoria ASC", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varCategoria", cate);
+                using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                {
+                    while (DATOS.Read())
+                    {
+                        respuesta = new Respuesta()
+                        {
+                            nombre = DATOS["subcategoria"].ToString()
+                        };
+                        _respuesta.Add(respuesta);
+                    }
+
+                }
+            }
+        }
+    }
+    catch (MySqlException ex)
+    {
+
+    }
+
+    Response.ContentType = "application/json";
+    Response.Write(Json.Encode(_respuesta));
+
+
+}
+
+@functions{
+
+    public class Respuesta
+    {
+        public string nombre { get; set; }
+    }
+
+}

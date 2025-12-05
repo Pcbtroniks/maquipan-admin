@@ -1,0 +1,49 @@
+﻿@using System;
+@using System.IO;
+@using System.Web;
+@using System.Configuration;
+@using MySqlConnector;
+
+
+@{
+    if (IsPost)
+    {
+        string id = Request.Form["id"];
+        HttpPostedFileBase file = Request.Files["pdfile"];
+
+        if (file != null && file.ContentLength > 0)
+        {
+            string fileName = id + @"\\" + Path.GetFileName(file.FileName);
+            string path = Path.Combine(globales.pathGlobalImagenes, fileName);
+
+            file.SaveAs(path);
+            actualziarPDF(id, file.FileName);
+
+            string url = ("~/productos/ver/" + id);
+            Response.Redirect(url);
+        }
+        else
+        {
+            Response.Write("No se seleccionó ningún archivo o el archivo está vacío.");
+        }
+    }
+}
+
+
+@functions{
+
+    private void actualziarPDF(string id, string filename)
+    {
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("UPDATE catart SET ficha = @varFicha WHERE id = @varId LIMIT 1 ", CONN))
+            {
+                CMD.Parameters.AddWithValue("@varId", id);
+                CMD.Parameters.AddWithValue("@varFicha", filename);
+                CMD.ExecuteReader();
+            }
+        }
+    }
+
+}

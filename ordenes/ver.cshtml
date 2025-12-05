@@ -1,0 +1,383 @@
+﻿@using System;
+@using System.Web;
+@using System.IO;
+@using System.Configuration;
+@using MySqlConnector;
+@{ 
+
+    string idCliente = "", estatus = "", noAprobacion = "", e_id = "";
+    decimal total = 0;
+
+    using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+    {
+        CONN.Open();
+        using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM ordenes WHERE id = @varOrden LIMIT 1", CONN))
+        {
+            CMD.Parameters.AddWithValue("@varOrden", UrlData[0].ToString());
+            using (MySqlDataReader DATOS = CMD.ExecuteReader())
+            {
+                while (DATOS.Read())
+                {
+                    idCliente = DATOS["id_cliente"].ToString();
+                    estatus = DATOS["estatus"].ToString();
+                    noAprobacion = DATOS["payment_id"].ToString();
+                    e_id = DATOS["e_id"].ToString();
+                }
+            }
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="gradient" data-menu-styles="dark">
+
+<head>
+
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@globales.nombreEmpresa</title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="simple admin panel template html css,admin panel html,bootstrap 5 admin template,admin,bootstrap dashboard,bootstrap 5 admin panel template,html and css,admin panel,admin panel html template,simple html template,bootstrap admin template,admin dashboard,admin dashboard template,admin panel template,template dashboard">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/libs/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/assets/libs/simonwep/pickr/themes/nano.min.css">
+    <link rel="stylesheet" href="~/assets/libs/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="~/assets/libs/jsvectormap/css/jsvectormap.min.css">
+    <link rel="stylesheet" href="~/assets/libs/swiper/swiper-bundle.min.css">
+
+</head>
+
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="../assets/images/media/loader.svg" alt="">
+    </div>
+    <!-- Loader -->
+
+    <div class="page">
+        <!-- app-header -->
+        @navegacionWeb.MenuHeader()
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+		<aside class="app-sidebar" id="sidebar">
+
+			<!-- Start::main-sidebar-header -->
+			<div class="main-sidebar-header">
+				<a href="~/dashboard" class="header-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+				</a>
+			</div>
+			<!-- End::main-sidebar-header -->
+			<!-- Start::main-sidebar -->
+			@navegacionWeb.MenuSideBar()
+			<!-- End::main-sidebar -->
+
+		</aside>
+        <!-- End::app-sidebar -->
+        <!-- Page Header -->
+        <div class="d-sm-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+            <h4 class="fw-medium mb-0">Detalles de la Orden</h4>
+            <div class="ms-sm-1 ms-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="~/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Detalles de la Orden</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Header Close -->
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card custom-card">
+                                            <div class="card-header d-flex justify-content-between">
+                                                <div class="card-title">
+                                                    Orden No - <span class="text-primary">#@UrlData[0]</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="table-responsive">
+                                                    <table class="table text-nowrap">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Item</th>
+                                                                <th scope="col">Precio</th>
+                                                                <th scope="col">Cant</th>
+                                                                <th scope="col">Monto</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{
+                                                                using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                                {
+                                                                    CONN.Open();
+                                                                    using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM artvent WHERE orden = @varOrden ", CONN))
+                                                                    {
+                                                                        CMD.Parameters.AddWithValue("@varOrden", UrlData[0]);
+                                                                        using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                                                                        {
+                                                                            while (DATOS.Read())
+                                                                            {
+                                                                                decimal Monto = Convert.ToDecimal(DATOS["precio"]) * Convert.ToDecimal(DATOS["cantidad"]);
+                                                                                total = total + Monto;
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <div class="d-flex align-items-center">
+                                                                                            <div class="me-3 lh-1">
+                                                                                                <span class="avatar avatar-xxl bd-gray-200">
+                                                                                                    <img src="https://maquipan.com.mx/img/productos/@DATOS["id_art"]/1.jpg" alt="">
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div>
+                                                                                                <div class="mb-1 fs-14 fw-semibold">
+                                                                                                    <a href="javascript:void(0);">@DATOS["nombre"]</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <span class="fs-15 fw-semibold">$@Convert.ToDecimal(DATOS["precio"].ToString()).ToString("N2")</span>
+                                                                                    </td>
+                                                                                    <td class="">@DATOS["cantidad"]</td>
+                                                                                    <td>
+                                                                                        <span class="fs-15 fw-semibold">$@Monto.ToString("N2")</span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer border-top-0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="card custom-card">
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Cliente
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled order-details-list">
+                                                    @{
+                                                        using (MySqlConnection CONNc = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                        {
+                                                            CONNc.Open();
+                                                            using (MySqlCommand CMDc = new MySqlCommand("SELECT * FROM clientes WHERE id = @varIdCliente ", CONNc))
+                                                            {
+                                                                CMDc.Parameters.AddWithValue("@varIdCliente", idCliente);
+                                                                using (MySqlDataReader DATOc = CMDc.ExecuteReader())
+                                                                {
+                                                                    while (DATOc.Read())
+                                                                    {
+                                                                        <li>
+                                                                            <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Nombre : </span>@DATOc["nombre"] @DATOc["paterno"] @DATOc["materno"]</div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Correo : </span><a href="javascript:void(0);" class="text-primary">@DATOc["correo"]</a></div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Movil : </span>@DATOc["movil"]</div>
+                                                                        </li>
+                                                                    }
+                                                        }
+                                                            }
+                                                        }
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="card custom-card overflow-hidden">
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Ubicacion de envios
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <div class="p-3">
+                                                    <ul class="list-unstyled order-details-list">
+                                                        @{
+                                                            using (MySqlConnection CONNc = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                                            {
+                                                                CONNc.Open();
+                                                                using (MySqlCommand CMDc = new MySqlCommand("SELECT * FROM fichas_ubicaciones WHERE id = @varUbicacion ", CONNc))
+                                                                {
+                                                                    CMDc.Parameters.AddWithValue("@varUbicacion", e_id);
+                                                                    using (MySqlDataReader DATOc = CMDc.ExecuteReader())
+                                                                    {
+                                                                        while (DATOc.Read())
+                                                                        {
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Recibe: </span>@DATOc["nombre"]</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Calle: </span>@DATOc["colonia"] @DATOc["exterior"] @DATOc["interior"]</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Ciudad: </span>@DATOc["municipio"]</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Colonia: </span>@DATOc["colonia"]</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Estado: </span>@DATOc["estado"]</div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Codigo postal: </span>@DATOc["cp"]</div>
+                                                                            </li>
+																			<li>
+																				@if (DATOc["cruces"].ToString() != "")
+																				{
+																					<div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>@DATOc["cruces"]</div>
+																				}
+																				else
+																				{
+																					<div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>No hay cruces disponibles</div>
+																				}
+																			</li>
+                                                                            <li>
+                                                                                <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Observacion: </span>@DATOc["observaciones"]</div>
+                                                                            </li>
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Información de la orden
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table style="width: 100%; margin: 0px; padding: 0px;">
+									<tr>
+										@{
+											if (estatus == "POS")
+											{
+												<td style="background-color: mediumseagreen; color: #ffffff;text-align: center; font-size: 34px; padding: 20px; font-weight: 800;">
+													APROBADA
+													<h6 style="color: white;">No. @noAprobacion</h6>
+												</td>
+											}
+											else if (estatus == "PEN")
+											{
+												<td style="background-color: #ffba3d; color: #ffffff;text-align: center; font-size: 34px; padding: 20px; font-weight: 800;">
+													ORDEN PENDIENTE
+												</td>
+											}
+
+										}
+									</tr>
+                                </table>
+                                <div class="mt-5">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class=" fs-14">Sub Total</div>
+                                        <div class="fw-semibold fs-16">$@total.ToString("N2")</div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class=" fs-14">Envio</div>
+                                        <div class="fw-semibold fs-16"> 0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="fs-18 fw-semibold">Total</div>
+                                    <h4 class="fw-semibold">$@total.ToString("N2")</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--End::row-1 -->
+
+            </div>
+        </div>
+        <!-- End::app-content -->
+        <!-- Footer Start -->
+        @navegacionWeb.Footer()
+        <!-- Footer End -->
+        <!-- Date & Time Picker JS -->
+        <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="~/assets/js/date&time_pickers.js"></script>
+
+    </div>
+
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-circle-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <!-- Popper JS -->
+    <script src="~/assets/libs/popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/defaultmenu.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/sticky.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/simplebar.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="~/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="~/assets/libs/jsvectormap/maps/world-merc.js"></script>
+    <script src="~/assets/libs/chart.js/chart.min.js"></script>
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/sales-dashboard.js"></script>
+
+</body>
+
+</html>

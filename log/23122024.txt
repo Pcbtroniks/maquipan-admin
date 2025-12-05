@@ -1,0 +1,8 @@
+17:49 Ana login Inicio session ip: 189.178.77.55
+17:49 Ana prodcutos Ver articulo A1 AUTOMÁTICA CASADIO CAFETERA AUTOMÁTICA 220 V ip: 189.178.77.55
+17:53 Ana prodcutos Ver articulo S1 SEMIAUTOMÁTICA CASADIO CAFETERA SEMI AUTOMÁTICA 1 GRUPO ip: 189.178.77.55
+18:28 Ana login Inicio session ip: 189.178.77.55
+18:30 Ana prodcutos Ver articulo MH MAQUIPAN HORNO MINI PANADERO 1 GAVETA ip: 189.178.77.55
+18:30 Ana productos Ver articulo MH MAQUIPAN HORNO MINI PANADERO 1 GAVETA ip: 189.178.77.55
+18:30 Ana prodcutos Ver articulo HM MAQUIPAN HORNO MINI PANADERO 1 GAVETA ip: 189.178.77.55
+22:51 Ana login Inicio session ip: 189.178.77.55

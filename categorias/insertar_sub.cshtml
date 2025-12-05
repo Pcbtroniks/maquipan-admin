@@ -1,0 +1,34 @@
+@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{
+    try
+    {
+        string cate = Request.Form["cate"];
+        string subcate = Request.Form["subcate"];
+
+        using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+        {
+            CONN.Open();
+            using (MySqlCommand CMD = new MySqlCommand("INSERT INTO subcategorias (categoria, subcategoria) VALUES (@varCategoria, @varSubCategoria);", CONN))
+            {
+                // Asignar valores a los par�metros
+                CMD.Parameters.AddWithValue("@varCategoria", cate);
+                CMD.Parameters.AddWithValue("@varSubCategoria", subcate);
+                CMD.ExecuteNonQuery();
+
+                // Construir la URL con el �ltimo ID
+                string urlf = "~/categorias/ver/" + cate;
+
+                // Redireccionar a la nueva URL
+                Response.Redirect(urlf);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Response.Write(ex.Message);
+    }
+}
+

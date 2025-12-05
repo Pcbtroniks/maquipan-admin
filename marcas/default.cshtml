@@ -1,0 +1,210 @@
+﻿@using System
+@using System.Configuration
+@using MySqlConnector
+
+@{ 
+    seguridad.VerificarSesionCorreo();
+    seguridad.RegistrarAccion(Session["correo"].ToString(), "marcas", "Ver articulo");
+}
+
+
+<!DOCTYPE html>
+<html lang="es-mx" dir="ltr" data-nav-layout="vertical" data-theme-mode="light" data-header-styles="gradient" data-menu-styles="dark">
+<head>
+    <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Maquipan | Admin</title>
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="simple admin panel template html css,admin panel html,bootstrap 5 admin template,admin,bootstrap dashboard,bootstrap 5 admin panel template,html and css,admin panel,admin panel html template,simple html template,bootstrap admin template,admin dashboard,admin dashboard template,admin panel template,template dashboard">
+
+    <link rel="icon" href="~/assets/images/brand-logos/fav.ico" type="image/x-icon">
+    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <link id="style" href="~/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/css/styles.css" rel="stylesheet">
+    <link href="~/assets/css/icons.css" rel="stylesheet">
+    <link href="~/assets/libs/node-waves/waves.min.css" rel="stylesheet">
+    <link href="~/assets/libs/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/libs/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" href="~/assets/libs/simonwep/pickr/themes/nano.min.css">
+    <link rel="stylesheet" href="~/assets/libs/choices.js/public/assets/styles/choices.min.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader">
+        <img src="~/assets/images/media/loader.svg" alt="">
+    </div>
+    <!-- Loader -->
+
+    <div class="page">
+        <!-- app-header -->
+        @navegacionWeb.MenuHeader()
+        <!-- /app-header -->
+        <!-- Start::app-sidebar -->
+		<aside class="app-sidebar" id="sidebar">
+
+			<!-- Start::main-sidebar-header -->
+			<div class="main-sidebar-header">
+				<a href="~/dashboard" class="header-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-logo">
+					<img src="~/img/logo_white.png" alt="logo" class="desktop-dark">
+					<img src="~/img/logo_white.png" alt="logo" class="toggle-dark">
+				</a>
+			</div>
+			<!-- End::main-sidebar-header -->
+			<!-- Start::main-sidebar -->
+			@navegacionWeb.MenuSideBar()
+			<!-- End::main-sidebar -->
+
+		</aside>
+        <!-- End::app-sidebar -->
+        <!-- Page Header -->
+        <div class="d-sm-flex d-block align-items-center justify-content-between page-header-breadcrumb">
+            <h4 class="fw-medium mb-0">Marcas</h4>
+            <div class="ms-sm-1 ms-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Marcas</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Header Close -->
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+            <div class="container-fluid">
+
+
+                <!-- Start::row-1 -->
+                <div class="row">
+
+                    <div class="col-xl-5">
+                        <div class="card custom-card">
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data" action="~/marcas/insertar">
+                                    <div class="form-group">
+                                        <label>Nombre del nueva marca:</label>
+                                        <input type="text" name="marca" class="form-control" value="" required />
+                                        <small>**Importate verificar antes de agregar que no tenga espacios en blanco al inicio o al final del nombre.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="verProductos();">agregar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-body" style="padding: 0px;">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td width="200"></td>
+                                            <td width="50"></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            using (MySqlConnection CONN = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
+                                            {
+                                                CONN.Open();
+                                                using (MySqlCommand CMD = new MySqlCommand("SELECT * FROM marcas ORDER BY nombre ASC", CONN))
+                                                {
+                                                    using (MySqlDataReader DATOS = CMD.ExecuteReader())
+                                                    {
+                                                        while (DATOS.Read())
+                                                        {
+                                                            string meses = "";
+                                                            switch (Convert.ToInt32(DATOS["meses"].ToString()))
+                                                            {
+                                                                case 1:
+                                                                    meses = "Pago único";
+                                                                    break;
+                                                                case 3:
+                                                                    meses = "3 MSI";
+                                                                    break;
+                                                                case 6:
+                                                                    meses = "6 MSI";
+                                                                    break;
+                                                                case 9:
+                                                                    meses = "9 MSI";
+                                                                    break;
+                                                                case 12:
+                                                                    meses = "12 MSI";
+                                                                    break;
+                                                            }
+                                                            <tr>
+                                                                <td>@DATOS["nombre"]</td>
+                                                                <td>
+                                                                    @meses
+                                                                </td>
+                                                                <td>
+                                                                    <a href="~/marcas/ver/@DATOS["id"]" class="btn btn-icon btn-sm btn-info-light rounded-pill"><i class="ri-edit-line"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="card-footer">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--End::row-1 -->
+
+
+            </div>
+        </div>
+        <!-- End::app-content -->
+        <!-- Footer Start -->
+        @navegacionWeb.Footer()
+        <!-- Footer End -->
+        <!-- Date & Time Picker JS -->
+        <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="~/assets/js/date&time_pickers.js"></script>
+
+    </div>
+
+
+    <div class="scrollToTop">
+        <span class="arrow"><i class="ri-arrow-up-circle-fill fs-20"></i></span>
+    </div>
+    <div id="responsive-overlay"></div>
+
+    <!-- Popper JS -->
+    <script src="~/assets/libs/popperjs/core/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/defaultmenu.min.js"></script>
+    <script src="~/assets/libs/node-waves/waves.min.js"></script>
+    <script src="~/assets/js/sticky.js"></script>
+    <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/assets/js/simplebar.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    <script src="~/assets/js/custom-switcher.min.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="~/productos/js/preguntas.js"></script>
+</body>
+</html>

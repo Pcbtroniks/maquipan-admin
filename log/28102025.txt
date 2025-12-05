@@ -1,0 +1,26 @@
+09:47 Ana login Inicio session ip: 189.178.58.228
+10:43 Alma login Inicio session ip: 177.245.198.206
+11:38 Ana login Inicio session ip: 189.178.58.228
+13:49 Ana login Inicio session ip: 189.178.58.228
+13:59 Ana login Inicio session ip: 189.178.58.228
+14:17 Ana login Inicio session ip: 189.178.58.228
+14:23 Ana login Inicio session ip: 189.178.58.228
+14:42 Ana login Inicio session ip: 189.178.58.228
+15:53 Ana login Inicio session ip: 189.178.58.228
+15:59 Ana login Inicio session ip: 189.178.58.228
+16:35 Ana login Inicio session ip: 189.178.58.228
+16:35 Ana prodcutos Ver articulo PLP23 PIZZA PAN PALA PREMIER PERFORADA REDONDA 23 X 142 CM ip: 189.178.58.228
+16:36 Ana prodcutos Ver articulo PMC MARVIC PORTA MALLA CROMADO ip: 189.178.58.228
+16:36 Ana prodcutos Ver articulo CPP12 MARVIC CHAROLA PAN PIZZA DE 12” ANODIZADA ip: 189.178.58.228
+16:49 Ana login Inicio session ip: 189.178.58.228
+16:50 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:51 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:52 Ana productos elimino foto no. 1 del prodcuto ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:52 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:52 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:54 Ana productos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:54 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:56 Ana productos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:56 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:59 Ana productos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
+16:59 Ana prodcutos Ver articulo ACANALADA MAQUIPAN CHAROLA PARA BAGUETTE 45 X 65 CM ip: 189.178.58.228
