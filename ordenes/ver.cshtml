@@ -239,9 +239,9 @@
                                                             using (MySqlConnection CONNc = new MySqlConnection(ConfigurationManager.ConnectionStrings["SDNS"].ConnectionString))
                                                             {
                                                                 CONNc.Open();
-                                                                using (MySqlCommand CMDc = new MySqlCommand("SELECT * FROM fichas_ubicaciones WHERE id = @varUbicacion ", CONNc))
+                                                                using (MySqlCommand CMDc = new MySqlCommand("SELECT * FROM fichas_ubicaciones WHERE id_cliente = @varIdCliente ", CONNc))
                                                                 {
-                                                                    CMDc.Parameters.AddWithValue("@varUbicacion", e_id);
+                                                                    CMDc.Parameters.AddWithValue("@varIdCliente", idCliente);
                                                                     using (MySqlDataReader DATOc = CMDc.ExecuteReader())
                                                                     {
                                                                         while (DATOc.Read())
@@ -264,16 +264,16 @@
                                                                             <li>
                                                                                 <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Codigo postal: </span>@DATOc["cp"]</div>
                                                                             </li>
-																			<li>
-																				@if (DATOc["cruces"].ToString() != "")
-																				{
-																					<div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>@DATOc["cruces"]</div>
-																				}
-																				else
-																				{
-																					<div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>No hay cruces disponibles</div>
-																				}
-																			</li>
+                                                                            <li>
+                                                                                @if (DATOc["cruces"].ToString() != "")
+                                                                                {
+                                                                                    <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>@DATOc["cruces"]</div>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Cruces: </span>No hay cruces disponibles</div>
+                                                                                }
+                                                                            </li>
                                                                             <li>
                                                                                 <div class="fs-14 text-muted"><span class="me-2 text-default fw-semibold">Observacion: </span>@DATOc["observaciones"]</div>
                                                                             </li>
